@@ -13,6 +13,16 @@ server {
     location /static/ {
         root /var/www ;
     }
+    location /admin-login {
+        limit_req zone=login_limit;
+    }
+    location / {
+        if ($remote addr=0.0.0.0) {
+        return 302 http://example.com;
+    }
+    location ~* (\.git) {
+        deny all;
+    }
 
     location / {
         include proxy_params;
